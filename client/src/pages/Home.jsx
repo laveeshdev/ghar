@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import SwiperCore from 'swiper';
 import 'swiper/css/bundle';
 import ListingItem from '../components/ListingItem';
+import { FaPlus } from 'react-icons/fa'; // Import the plus icon
 
 export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
@@ -12,6 +14,7 @@ export default function Home() {
   const [rentListings, setRentListings] = useState([]);
   SwiperCore.use([Navigation]);
   console.log(offerListings);
+
   useEffect(() => {
     const fetchOfferListings = async () => {
       try {
@@ -40,11 +43,12 @@ export default function Home() {
         const data = await res.json();
         setSaleListings(data);
       } catch (error) {
-        log(error);
+        console.log(error);
       }
     };
     fetchOfferListings();
   }, []);
+
   return (
     <div>
       {/* top */}
@@ -55,7 +59,7 @@ export default function Home() {
           place with ease
         </h1>
         <div className='text-gray-400 text-xs sm:text-sm'>
-          Sahand Estate is the best place to find your next perfect place to
+          Ghar Dekho is the best place to find your next perfect place to
           live.
           <br />
           We have a wide range of properties for you to choose from.
@@ -73,21 +77,19 @@ export default function Home() {
         {offerListings &&
           offerListings.length > 0 &&
           offerListings.map((listing) => (
-            <SwiperSlide>
+            <SwiperSlide key={listing._id}>
               <div
                 style={{
                   background: `url(${listing.imageUrls[0]}) center no-repeat`,
                   backgroundSize: 'cover',
                 }}
                 className='h-[500px]'
-                key={listing._id}
               ></div>
             </SwiperSlide>
           ))}
       </Swiper>
 
       {/* listing results for offer, sale and rent */}
-
       <div className='max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10'>
         {offerListings && offerListings.length > 0 && (
           <div className=''>
@@ -128,6 +130,16 @@ export default function Home() {
             </div>
           </div>
         )}
+      </div>
+
+      {/* Add the plus icon link with background and hover effect */}
+      <div className='fixed bottom-10 right-10 z-50'>
+        <Link
+          to='/create-listing'
+          className='flex items-center justify-center w-16 h-16 bg-blue-800 text-white rounded-full hover:bg-blue-600 transition duration-300'
+        >
+          <FaPlus className='text-2xl' />
+        </Link>
       </div>
     </div>
   );
