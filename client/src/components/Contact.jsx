@@ -27,7 +27,7 @@ export default function Contact({ listing }) {
           <p>
             Contact <span className='font-semibold'>{landlord.username}</span>{' '}
             for{' '}
-            <span className='font-semibold'>{listing.name.toLowerCase()}</span>
+            <span className='font-semibold'>{listing.name.toLowerCase()}</span> <span> at {landlord.email}</span>
           </p>
           <textarea
             name='message'
